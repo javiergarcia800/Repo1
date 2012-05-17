@@ -4,10 +4,8 @@ import com.seg47.vo.TipoOperacion._
 
 class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:Operando) extends Operando {
   
-  override def toString() : String = {
-    "[" + operando1.toString() + " " + tipoOperacion + " " + operando2.toString() + "]"
-  }
-  
+  override def toString() : String = "[" + operando1.toString() + " " + tipoOperacion + " " + operando2.toString() + "]"
+
   override def calculaOperacion() : Int = {
     tipoOperacion match {
       case MAS   => calculaOperacion(_+_)
