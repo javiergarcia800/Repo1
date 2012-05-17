@@ -2,6 +2,7 @@ package com.seg47
 
 import com.seg47.constantes.Constantes
 import com.seg47.vo.Datos
+import com.seg47.vo.Operacion
 
 object Printer {
 
@@ -20,5 +21,11 @@ object Printer {
         println("]")
         println("CANTIDAD: " + datos.cantidad );
     }
-  
+ 
+    def printMejorOperacion(operacion:Operacion, cantidad: Int) {
+        println("\nLa mejor primera operación (" + operacion.operandos.length + " OPERADORES) para encontrar " + cantidad + " es: " + operacion.operacionInterna )
+        operacion.operandos.take(operacion.operandos.length -1).foreach(x => { print(x + " " + operacion.operacionInterna.toString() + " " )  })
+        print(operacion.operandos.last + " = " + operacion.calcula() )
+    }
+    
 }
