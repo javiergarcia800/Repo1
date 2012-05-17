@@ -1,3 +1,0 @@
-class Clase2 {
-
-}
