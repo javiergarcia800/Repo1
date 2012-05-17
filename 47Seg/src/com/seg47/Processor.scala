@@ -4,6 +4,7 @@ import scala.util.Sorting
 
 import com.seg47.vo.Datos
 import com.seg47.vo.Operacion
+import com.seg47.vo.TipoOperacion
 import com.seg47.vo.TipoOperacion._
 import com.seg47.constantes._
 
@@ -13,18 +14,31 @@ object Processor {
       val numeros = datos.numeros.toList
       val cantidad = datos.cantidad
       
-      val operacion2Operadores = mejorPar(numeros, cantidad)
-      val operacion3Operadores = mejorTrio(numeros, cantidad)
-      val operacion4Operadores = mejorCuarteto(numeros, cantidad)
-      val operacion5Operadores = mejorQuinteto(numeros, cantidad)
-      val operacion6Operadores = mejorSexteto(numeros, cantidad)
-      
-      Printer.printMejorOperacion(operacion2Operadores, cantidad)
-      Printer.printMejorOperacion(operacion3Operadores, cantidad)
-      Printer.printMejorOperacion(operacion4Operadores, cantidad)
-      Printer.printMejorOperacion(operacion5Operadores, cantidad)
-      Printer.printMejorOperacion(operacion6Operadores, cantidad)
+      val operaciones = List (   mejorPar(numeros, cantidad),
+                                 mejorCombinacion(numeros, cantidad, mejorTrio     ),
+                                 mejorCombinacion(numeros, cantidad, mejorCuarteto ),
+                                 mejorCombinacion(numeros, cantidad, mejorQuinteto ),
+                                 mejorCombinacion(numeros, cantidad, mejorSexteto  )
+                                 )
 
+      val mejorPrimeraOperacion = mejorOperacion(operaciones,cantidad)
+      
+      Printer.printMejorOperacion(operaciones(0), cantidad)
+      Printer.printMejorOperacion(operaciones(1), cantidad)
+      Printer.printMejorOperacion(operaciones(2), cantidad)
+      Printer.printMejorOperacion(operaciones(3), cantidad)
+      Printer.printMejorOperacion(operaciones(4), cantidad)
+      
+      println("\nLA MEJOR OPERACION")
+      Printer.printMejorOperacion(mejorPrimeraOperacion, cantidad)
+
+      val numerosRestantes = numeros -- mejorPrimeraOperacion.operandos
+      val cantidadRestante = cantidad - mejorPrimeraOperacion.calcula()
+      
+      println("\nNumerosRestantes:" + numerosRestantes )
+      println("cantidadRestantes:" + cantidadRestante )
+      
+      
     }
 
     private def mejorPar(numeros:List[Int], cantidad: Int) : Operacion = {
@@ -41,57 +55,15 @@ object Processor {
         operacion
     }
 
-    private def mejorTrio(numeros:List[Int], cantidad: Int) : Operacion = {
-        val trios = List(mejorTrioPorOperacion(numeros, cantidad, SUMA),
-                         mejorTrioPorOperacion(numeros, cantidad, RESTA),
-                         mejorTrioPorOperacion(numeros, cantidad, MULTIPLICACION)/*,
-                         mejorTrioPorOperacion(numeros, cantidad, DIVISION)*/)
-        val operacion = mejorOperacion(trios, cantidad)
-      
-        println("\n")
-        trios.foreach( x => {
-            println("Operacion: " + x.operacionInterna + " = " + x.calcula()  )
-        })
-        operacion
-    }
+    private def mejorCombinacion(numeros:List[Int], cantidad: Int, mejorCombinacionPorOperacion: (List[Int], Int, Tipo)=> Operacion ) : Operacion = {
+        val combinacion = List(mejorCombinacionPorOperacion(numeros, cantidad, SUMA),
+                               mejorCombinacionPorOperacion(numeros, cantidad, RESTA),
+                               mejorCombinacionPorOperacion(numeros, cantidad, MULTIPLICACION)/*,
+                               mejorTrioPorOperacion(numeros, cantidad, DIVISION)*/)
+        val operacion = mejorOperacion(combinacion, cantidad)
 
-    private def mejorCuarteto(numeros:List[Int], cantidad: Int) : Operacion = {
-        val cuartetos = List(mejorCuartetoPorOperacion(numeros, cantidad, SUMA),
-                             mejorCuartetoPorOperacion(numeros, cantidad, RESTA),
-                             mejorCuartetoPorOperacion(numeros, cantidad, MULTIPLICACION)/*,
-                             mejorTrioPorOperacion(numeros, cantidad, DIVISION)*/)
-        val operacion = mejorOperacion(cuartetos, cantidad)
-      
         println("\n")
-        cuartetos.foreach( x => {
-            println("Operacion: " + x.operacionInterna + " = " + x.calcula()  )
-        })
-        operacion
-    }
-
-    private def mejorQuinteto(numeros:List[Int], cantidad: Int) : Operacion = {
-        val quintetos = List(mejorQuintetoPorOperacion(numeros, cantidad, SUMA),
-                             mejorQuintetoPorOperacion(numeros, cantidad, RESTA),
-                             mejorQuintetoPorOperacion(numeros, cantidad, MULTIPLICACION)/*,
-                             mejorTrioPorOperacion(numeros, cantidad, DIVISION)*/)
-        val operacion = mejorOperacion(quintetos, cantidad)
-      
-        println("\n")
-        quintetos.foreach( x => {
-            println("Operacion: " + x.operacionInterna + " = " + x.calcula()  )
-        })
-        operacion
-    }
-
-    private def mejorSexteto(numeros:List[Int], cantidad: Int) : Operacion = {
-        val sexteto = List(mejorSextetoPorOperacion(numeros, cantidad, SUMA),
-                             mejorSextetoPorOperacion(numeros, cantidad, RESTA),
-                             mejorSextetoPorOperacion(numeros, cantidad, MULTIPLICACION)/*,
-                             mejorTrioPorOperacion(numeros, cantidad, DIVISION)*/)
-        val operacion = mejorOperacion(sexteto, cantidad)
-      
-        println("\n")
-        sexteto.foreach( x => {
+        combinacion.foreach( x => {
             println("Operacion: " + x.operacionInterna + " = " + x.calcula()  )
         })
         operacion
@@ -112,7 +84,7 @@ object Processor {
         operacion
     }
     
-    private def mejorTrioPorOperacion(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
+    private def mejorTrio(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
         val operacion:Operacion = new Operacion(Nil, tipoOperacion)
         for ( i <- 0 until numeros.length ) {
             for ( j <- (i + 1) until numeros.length ) {
@@ -129,7 +101,7 @@ object Processor {
         operacion
     }
 
-    private def mejorCuartetoPorOperacion(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
+    private def mejorCuarteto(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
         val operacion:Operacion = new Operacion(Nil, tipoOperacion)
         for ( i <- 0 until numeros.length ) {
             for ( j <- (i + 1) until numeros.length ) {
@@ -148,7 +120,7 @@ object Processor {
         operacion
     }
 
-    private def mejorQuintetoPorOperacion(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
+    private def mejorQuinteto(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
         val operacion:Operacion = new Operacion(Nil, tipoOperacion)
         for ( i <- 0 until numeros.length ) {
             for ( j <- (i + 1) until numeros.length ) {
@@ -169,7 +141,7 @@ object Processor {
         operacion
     }
 
-    private def mejorSextetoPorOperacion(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
+    private def mejorSexteto(numeros:List[Int], cantidadAEncontrar: Int, tipoOperacion:Tipo) : Operacion = {
         val operacion:Operacion = new Operacion(Nil, tipoOperacion)
         for ( i <- 0 until numeros.length ) {
             for ( j <- (i + 1) until numeros.length ) {
@@ -188,7 +160,7 @@ object Processor {
                 }
             }
         }
-        operacion.operacionExterna = if ( operacion.calcula() < cantidadAEncontrar ) SUMA else RESTA
+        operacion.operacionExterna = if ( operacion.calcula() <= cantidadAEncontrar ) SUMA else RESTA
         operacion
     }
 
@@ -197,7 +169,7 @@ object Processor {
     }
     
     val operacionMasCercana: (Int, Int, Int) => Boolean = (num1, num2, cantidad) => {
-        if ( math.abs(num1 - cantidad) < math.abs(num2-cantidad)  ) true else false
+        if ( math.abs(num1 - cantidad) <= math.abs(num2-cantidad)  ) true else false
     }
     
 }
