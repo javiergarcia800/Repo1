@@ -1,3 +1,8 @@
 package com.seg47.vo
 
-trait Nothing extends Operando {}
+class Nothing extends Operando {
+  
+  override def toString() : String = "?"
+  override def calculaOperacion() = 0
+
+}
