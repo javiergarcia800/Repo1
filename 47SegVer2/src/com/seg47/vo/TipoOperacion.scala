@@ -10,4 +10,6 @@ object TipoOperacion extends Enumeration {
     val POR     = Value("*")
     val NOTHING = Value("")
 
+    val operaciones = List(MAS, MENOS, ENTRE, POR)
+    
 }

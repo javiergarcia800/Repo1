@@ -3,9 +3,15 @@ package com.seg47.vo
 import com.seg47.vo.TipoOperacion._
 
 class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:Operando) extends Operando {
-  
+
+  def this() = {
+    this(new Nothing(), NOTHING, new Nothing())
+  }
+
   override def toString() : String = "[" + operando1.toString() + " " + tipoOperacion + " " + operando2.toString() + "]"
 
+  def descripcion() : String = toString() + " = " + calculaOperacion()
+  
   override def calculaOperacion() : Int = {
     tipoOperacion match {
       case MAS   => calculaOperacion(_+_)
@@ -19,5 +25,61 @@ class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:O
   private def calculaOperacion(operacion: (Int, Int)=>Int ) : Int = {
     operacion(operando1.calculaOperacion(), operando2.calculaOperacion())
   }
+
+  def setOperandos(operandos: Int*) {
+    val operandosList = operandos.toList
+    operando1 = Cifra (operandosList.first)
+    operando2 = Operacion.getOperando2(operandosList.tail, tipoOperacion)
+  }
+
+  def getOperandos() : List[Int] = {
+    getOperandos(operando1) ++ getOperandos(operando2)
+  }
   
+  private def getOperandos(operador: Operando) : List[Int] = {
+    operador match {
+      case c:Cifra => c.valor :: Nil
+      case o:Operacion => getOperandos(o.operando1) ++ getOperandos(o.operando2) ++ Nil
+    }
+  }
+  
+  def operacionFaltante(cantidadAEncontrar:Int) : Operacion = {
+    var operacion = new Operacion();
+    val calculoOperacion = this.calculaOperacion()
+    operacion.tipoOperacion = if ( cantidadAEncontrar > calculoOperacion ) MAS else MENOS
+    operacion.operando1 = this
+    operacion.operando2 = new Nothing()
+    operacion
+  }
+
+  def cantidadFaltante(cantidadAEncontrar:Int) : Int = {
+    math.abs(cantidadAEncontrar - this.calculaOperacion())
+  }
+  
+}
+
+object Operacion {
+
+  def calculaOperacion(tipoOper:Tipo, numeros: Int*) : Int = {
+    tipoOper match {
+      case MAS   => aplicaOperacion(_+_, numeros.toList)
+      case MENOS => aplicaOperacion(_-_, numeros.toList)
+      case POR   => aplicaOperacion(_*_, numeros.toList)
+      case ENTRE => aplicaOperacion(_/_, numeros.toList)
+      case _ => 0
+    }
+  }
+
+  private def aplicaOperacion(f: (Int, Int)=> Int, operandosAplicarOperacion:List[Int]) : Int = {
+      operandosAplicarOperacion.reduceLeft(f)
+  } 
+  
+  private def getOperando2(operandos: List[Int], tipoOperacion:Tipo) : Operando = {
+    operandos match {
+      case x :: Nil => new Cifra(x)
+      case x :: tail => new Operacion(Cifra(x), tipoOperacion, getOperando2(tail, tipoOperacion))
+      case Nil => new Operacion()
+    }
+  }
+
 }
