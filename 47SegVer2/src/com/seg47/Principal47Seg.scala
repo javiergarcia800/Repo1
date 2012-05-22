@@ -5,10 +5,10 @@ import com.seg47.util._
 object Principal47Seg {
 
     def main(args:Array[String]) {
-        Printer.printStart()
+        /*Printer.printStart()
         val data = Reader.readData()
         Printer.printData(data)
-        Processor.process(data)
+        Processor.process(data)*/
     }
 
 }

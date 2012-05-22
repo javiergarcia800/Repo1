@@ -12,12 +12,18 @@ object Printer {
     
     def printData(datos: Datos) {
         println("============")
-        print("\nNumeros : [")
+        print("Numeros : [")
+        //data.numbers.take(Constantes.AMOUNT_NUMBERS -1).foreach(x=> printWithColon(x)))
         datos.numeros.take(Constantes.AMOUNT_NUMBERS -1).foreach(printWithColon(_))
         print(datos.numeros.last)
         println("]")
         println("CANTIDAD: " + datos.cantidad );
-        println("");
+    }
+
+    def printMejorOperacion(operacion:Operacion, cantidad: Int) {
+        //println("\nLa mejor primera operación (" + operacion.operandos.length + " OPERADORES) para encontrar " + cantidad + " es: " + operacion.operacionInterna )
+        //operacion.operandos.take(operacion.operandos.length -1).foreach(x => { print(x + " " + operacion.operacionInterna.toString() + " " )  })
+        //print(operacion.operandos.last + " = " + operacion.calcula() )
     }
     
 }
