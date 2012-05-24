@@ -6,21 +6,9 @@ import com.seg47.vo._
 import com.seg47.vo.TipoOperacion._
 import com.seg47.util._
 
-object Processor {
-  
-  def process(datos: Datos) {
-    val numeros = datos.numeros.toList.sort(_ > _)
-    val cantidad = datos.cantidad
-    var operacion = getOperacion(numeros, cantidad)
-    
-    println("\nOperacion Final:\t" + operacion.descripcion() );
-    println("Numeros utilizados: " +  operacion.getOperandos().length )
-    println("Diferencia: " + operacion.cantidadFaltante(cantidad) );
-    if ( operacion.cantidadFaltante(cantidad) == 0 ) println("EXACTO!!!")
-    
-  }
+object ProcesadorSimple extends BaseProcesador {
 
-  private def getOperacion(numeros:List[Int], cantidad: Int) : Operacion = {
+  override def getOperacion(numeros:List[Int], cantidad: Int) : Operacion = {
     var operaciones = numeros.length match {
       case 2 => List( mejorCombinacion(numeros, cantidad, mejorPar     ))
       case 3 => List( mejorCombinacion(numeros, cantidad, mejorPar      ),
@@ -40,8 +28,6 @@ object Processor {
       case _ => Nil
     }
     var operacion = mejorOperacion(operaciones, cantidad)
-
-    println("Operacion Parcial:\t" + operacion.descripcion() )
 
     val cantidadFaltante = operacion.cantidadFaltante(cantidad)
     //val numerosSinUsar = numeros -- operacion.getOperandos()
@@ -148,12 +134,6 @@ object Processor {
     operacion
   }
 
-  private def mejorOperacion(operaciones:List[Operacion], cantidadAEncontrar:Int) : Operacion = {
-    operaciones.reduceLeft( (a,b) => if ( operacionMasCercana(a.calculaOperacion(), b.calculaOperacion(), cantidadAEncontrar) ) a else b )
-  }
 
-  private val operacionMasCercana: (Int, Int, Int) => Boolean = (num1, num2, cantidad) => {
-    if ( math.abs(num1 - cantidad) <= math.abs(num2-cantidad)  ) true else false
-  }
 
 }

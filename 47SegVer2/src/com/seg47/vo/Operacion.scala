@@ -27,11 +27,14 @@ class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:O
   }
 
   def setOperandos(operandos: Int*) {
-    val operandosList = operandos.toList
-    operando1 = Cifra (operandosList.first)
-    operando2 = Operacion.getOperando2(operandosList.tail, tipoOperacion)
+    setOperandos(operandos.toList)
   }
 
+  def setOperandos(operandos: List[Int]) {
+    operando1 = Cifra (operandos.first)
+    operando2 = Operacion.getOperando2(operandos.tail, tipoOperacion)
+  }
+  
   def getOperandos() : List[Int] = {
     getOperandos(operando1) ++ getOperandos(operando2)
   }
@@ -78,8 +81,16 @@ object Operacion {
     operandos match {
       case x :: Nil => new Cifra(x)
       case x :: tail => new Operacion(Cifra(x), tipoOperacion, getOperando2(tail, tipoOperacion))
-      case Nil => new Operacion()
+      case Nil => new Nothing
     }
   }
 
+  def getOperando2(operaciones: List[Operacion], tipoOperacion:Tipo) : Operando = {
+    operaciones match {
+      case x :: Nil => x
+      case x :: tail => new Operacion(x, tipoOperacion, getOperando2(tail, tipoOperacion))
+      case Nil =>new Nothing
+    }
+  }
+  
 }

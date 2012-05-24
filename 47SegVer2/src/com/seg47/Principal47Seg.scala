@@ -8,7 +8,7 @@ object Principal47Seg {
         Printer.printStart()
         val data = Reader.readData()
         Printer.printData(data)
-        Processor.process(data)
+        Procesador.encuentraCombinacion(data)
     }
 
 }

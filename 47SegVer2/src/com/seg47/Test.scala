@@ -2,20 +2,79 @@ package com.seg47
 
 import com.seg47.vo._
 import com.seg47.vo.TipoOperacion._
+import scala.collection.mutable._
 
 object Test {
 
     def main(args:Array[String]) {
         println("Test...")
-        restalista()
+        //getDigitosClave(450)
+        //testCompuesto()
+        //testYield()
+        //cifraRed()
+        //restalista()
         //operaciones()
         //forAnidado()
         //tailList(1,2,3)
         //setOperandos()
         //list()
-                
+        testDiff()
     }
 
+    def testDiff() {
+      var x = ListBuffer(1,2,3,3,3)
+      x -= 3
+      println(x)
+    }
+    
+    def testCompuesto() {
+      var p = ProcesadorCompuesto
+      var operacion = p.getCombinaciones(List(5,9,10), List(4,8,6,5,1,2))
+      println(operacion.descripcion())
+    }
+    
+    def testYield() {
+        var numerosClave = List(5, 5, 10)
+        var numerosDisponibles = ListBuffer(4, 8, 5, 3, 1, 2)
+        var numerosEncontrados = new ListBuffer[Int]
+        
+        for ( x <- numerosClave ) {
+          if ( numerosDisponibles.contains(x) ) {
+            numerosDisponibles -= x
+            numerosEncontrados += x
+          }
+        }
+        println("x:" + numerosEncontrados.toList )
+    }
+
+  val containsAndRemove: (ListBuffer[Int], Int) => Boolean = (numerosDisponibles, numeroClave) => {
+    println("numerosDisp:" + numerosDisponibles )
+    println("numerosClave:" + numeroClave )
+    if ( numerosDisponibles.contains(numeroClave) ) {
+      numerosDisponibles -= numeroClave
+      println("true")
+      true
+    }
+    false
+  }
+
+  def getDigitosClave(cifra: Int) : List[Int] = { 
+    for ( i <- 1 to 10; 
+          j <- 1 to 10;
+          k <- 1 to 10 ) {
+      if ( i * j * k == cifra ) {
+        return List(i,j,k)
+      }
+    }
+    List()
+  }
+    
+    def cifraRed() {
+      val cantidad = 345
+      val cifra = (345/10) * 10
+      println(cifra)
+    }
+    
     def restalista() {
       var x = List(2,2,4,4,6,6)
       var y = List(2,4,6,8,10)
