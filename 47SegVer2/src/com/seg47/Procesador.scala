@@ -8,19 +8,17 @@ object Procesador {
     val numeros = datos.numeros.toList.sort(_ > _)
     val cantidad = datos.cantidad
     var operacionSimple = ProcesadorSimple.getOperacion(numeros, cantidad)
-    
-    println("\nOperacion Simple:\t" + operacionSimple.descripcion() );
-    println("Numeros utilizados: " +  operacionSimple.getOperandos().length )
-    println("Diferencia: " + operacionSimple.cantidadFaltante(cantidad) );
-    if ( operacionSimple.cantidadFaltante(cantidad) == 0 ) println("EXACTO!!!")
-    
-    
     var operacionCompuesta = ProcesadorCompuesto.getOperacion(numeros, cantidad)
-    println("\nOperacion Compuesta:\t" + operacionCompuesta.descripcion() );
-    println("Numeros utilizados: " +  operacionCompuesta.getOperandos().length )
-    println("Diferencia: " + operacionCompuesta.cantidadFaltante(cantidad) );
-    if ( operacionCompuesta.cantidadFaltante(cantidad) == 0 ) println("EXACTO!!!")
     
+    val operacion = ProcesadorSimple.mejorOperacion(List(operacionSimple, operacionCompuesta), cantidad)
+    if ( operacion == operacionSimple ) println("OPERACION SIMPLE")
+    if ( operacion == operacionCompuesta ) println("OPERACION COMPUESTA")
+    println("Pasos: ")
+    operacion.imprimePasos()
+    println("Operacion Final:\t" + operacion.descripcion() )
+    println("Numeros utilizados: " +  operacion.getOperandos().length )
+    println("Diferencia: " + operacion.cantidadFaltante(cantidad) );
+    if ( operacion.cantidadFaltante(cantidad) == 0 ) println("EXACTO!!!")
     
   }
   

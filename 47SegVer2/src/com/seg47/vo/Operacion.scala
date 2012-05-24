@@ -8,9 +8,21 @@ class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:O
     this(new Nothing(), NOTHING, new Nothing())
   }
 
-  override def toString() : String = "[" + operando1.toString() + " " + tipoOperacion + " " + operando2.toString() + "]"
+  override def toString() : String = " [" + operando1.toString() + " " + tipoOperacion + " " + operando2.toString() + "] "
 
   def descripcion() : String = toString() + " = " + calculaOperacion()
+
+  def imprimePasos() {
+    operando1 match {
+      case c: Cifra => //println(""); //println(descripcion)
+      case o: Operacion => o.imprimePasos()  
+    }
+    operando2 match {
+      case c: Cifra => //println(""); //println(descripcion)
+      case o: Operacion =>  o.imprimePasos()
+    }
+    println(descripcion)
+  }
   
   override def calculaOperacion() : Int = {
     tipoOperacion match {
