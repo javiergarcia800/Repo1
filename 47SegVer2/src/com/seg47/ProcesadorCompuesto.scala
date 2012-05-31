@@ -67,7 +67,7 @@ object ProcesadorCompuesto extends BaseProcesador {
       operandosUnitarios.size match {
         case 1 => operacion.operando1 = Cifra(operandosUnitarios.first)
                   operacion.tipoOperacion = POR
-                  operacion.operando2 = Operacion.getOperando2(operacionesParEncontradas, POR)
+                  operacion.operando2 = Operacion.construyeOperando2(operacionesParEncontradas, POR)
         case 2 => operacion.tipoOperacion = POR
                   operacion.setOperandos(operandosUnitarios)
                   if ( operacionesParEncontradas.length > 0 ) {

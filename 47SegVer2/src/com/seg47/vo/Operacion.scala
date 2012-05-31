@@ -1,5 +1,6 @@
 package com.seg47.vo
 
+import com.seg47.util._
 import com.seg47.vo.TipoOperacion._
 
 class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:Operando) extends Operando {
@@ -14,16 +15,16 @@ class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:O
 
   def imprimePasos() {
     operando1 match {
-      case c: Cifra => //println(""); //println(descripcion)
-      case o: Operacion => o.imprimePasos()  
+      case c: Cifra =>
+      case o: Operacion => o.imprimePasos()
     }
     operando2 match {
-      case c: Cifra => //println(""); //println(descripcion)
-      case o: Operacion =>  o.imprimePasos()
+      case c: Cifra =>
+      case o: Operacion => o.imprimePasos()
     }
-    println(descripcion)
+    println(this.descripcion)
   }
-  
+
   override def calculaOperacion() : Int = {
     tipoOperacion match {
       case MAS   => calculaOperacion(_+_)
@@ -44,7 +45,7 @@ class Operacion (var operando1:Operando, var tipoOperacion:Tipo, var operando2:O
 
   def setOperandos(operandos: List[Int]) {
     operando1 = Cifra (operandos.first)
-    operando2 = Operacion.getOperando2(operandos.tail, tipoOperacion)
+    operando2 = Operacion.construyeOperando2(operandos.tail, tipoOperacion)
   }
   
   def getOperandos() : List[Int] = {
@@ -85,22 +86,22 @@ object Operacion {
     }
   }
 
-  private def aplicaOperacion(f: (Int, Int)=> Int, operandosAplicarOperacion:List[Int]) : Int = {
-      operandosAplicarOperacion.reduceLeft(f)
+  private def aplicaOperacion(f: (Int, Int)=> Int, operandos:List[Int]) : Int = {
+    operandos.reduceLeft( (x,y) => if ( Util.tieneDecimales(f(x , y)) ) return 0 else f(x,y) )
   } 
   
-  private def getOperando2(operandos: List[Int], tipoOperacion:Tipo) : Operando = {
+  private def construyeOperando2(operandos: List[Int], tipoOperacion:Tipo) : Operando = {
     operandos match {
       case x :: Nil => new Cifra(x)
-      case x :: tail => new Operacion(Cifra(x), tipoOperacion, getOperando2(tail, tipoOperacion))
+      case x :: tail => new Operacion(Cifra(x), tipoOperacion, construyeOperando2(tail, tipoOperacion))
       case Nil => new Nothing
     }
   }
 
-  def getOperando2(operaciones: List[Operacion], tipoOperacion:Tipo) : Operando = {
+  def construyeOperando2(operaciones: List[Operacion], tipoOperacion:Tipo) : Operando = {
     operaciones match {
       case x :: Nil => x
-      case x :: tail => new Operacion(x, tipoOperacion, getOperando2(tail, tipoOperacion))
+      case x :: tail => new Operacion(x, tipoOperacion, construyeOperando2(tail, tipoOperacion))
       case Nil =>new Nothing
     }
   }

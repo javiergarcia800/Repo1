@@ -1,5 +1,6 @@
 package com.seg47
 
+import com.seg47.util._
 import com.seg47.vo._
 import com.seg47.vo.TipoOperacion._
 import scala.collection.mutable._
@@ -18,9 +19,35 @@ object Test {
         //tailList(1,2,3)
         //setOperandos()
         //list()
-        testDiff()
+        //testDiff()
+        //testTieneDecimales
+        //testOperacion
     }
 
+    /*def testOperacion {
+      val lista1 = List(9,3,3)
+      val lista2 = List(8,4,2,2)
+      val lista3 = List(9,7,3)
+      
+      val reduce1 = Operacion.aplicaOperacionEntre(lista1)
+      val reduce2 = Operacion.aplicaOperacionEntre(lista2)
+      val reduce3 = Operacion.aplicaOperacionEntre(lista3)
+      
+      println("reduce1:" + reduce1 );
+      println("reduce2:" + reduce2 );
+      println("reduce3:" + reduce3 );
+      
+    }*/
+    
+    def testTieneDecimales {
+      val decimal = 1.3;
+      var tieneDecimales = Util.tieneDecimales(decimal)
+      val decimal2:Double = 1.0;
+      var tieneDecimales2 = Util.tieneDecimales(decimal2)
+      println("TieneDecimales [" + decimal + " ]=" + tieneDecimales );
+      println("TieneDecimales [" + decimal2 + " ]=" + tieneDecimales2 );
+    }
+    
     def testDiff() {
       var x = ListBuffer(1,2,3,3,3)
       x -= 3
