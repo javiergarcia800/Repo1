@@ -26,8 +26,9 @@ object ProcesadorCompuesto extends BaseProcesador {
             operacion.operando2 = Cifra(numero)
          }
       } else if ( numerosSinUsar.length > 1 ) {
-         operacion = operacion.operacionFaltante(cantidad)
-         operacion.operando2 = ProcesadorSimple.getOperacion(numerosSinUsar, cantidadFaltante)
+         val operacionDoble = operacion.operacionFaltante(cantidad)
+         operacionDoble.operando2 = ProcesadorSimple.getOperacion(numerosSinUsar, cantidadFaltante)
+         operacion = super.mejorOperacion(List(operacion, operacionDoble), cantidad)
        }
     }
     
