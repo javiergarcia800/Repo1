@@ -6,7 +6,7 @@ object TipoOperacion extends Enumeration {
 
     val MAS     = Value("+")
     val MENOS   = Value("-") 
-    val ENTRE   = Value("\\")
+    val ENTRE   = Value("/")
     val POR     = Value("*")
     val NOTHING = Value("")
 
