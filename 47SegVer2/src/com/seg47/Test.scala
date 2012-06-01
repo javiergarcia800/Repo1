@@ -21,23 +21,28 @@ object Test {
         //list()
         //testDiff()
         //testTieneDecimales
-        //testOperacion
+        testOperacion
+        //testRead
     }
 
-    /*def testOperacion {
-      val lista1 = List(9,3,3)
-      val lista2 = List(8,4,2,2)
-      val lista3 = List(9,7,3)
+    def testRead {
+      var a:Char = '\u00E0'
+      println(a)
+    }
+    
+    def testOperacion {
       
-      val reduce1 = Operacion.aplicaOperacionEntre(lista1)
-      val reduce2 = Operacion.aplicaOperacionEntre(lista2)
-      val reduce3 = Operacion.aplicaOperacionEntre(lista3)
+      val lista2 = List(8,5)
+      
+      val reduce1 = Operacion.aplicaOperacionDecimal(_/_,lista2)
+      //val reduce2 = Operacion.aplicaOperacion(_/_,lista2)
+      //val reduce3 = Operacion.aplicaOperacion(_/_,lista3)
       
       println("reduce1:" + reduce1 );
-      println("reduce2:" + reduce2 );
-      println("reduce3:" + reduce3 );
+      //println("reduce2:" + reduce2 );
+      //println("reduce3:" + reduce3 );
       
-    }*/
+    }
     
     def testTieneDecimales {
       val decimal = 1.3;

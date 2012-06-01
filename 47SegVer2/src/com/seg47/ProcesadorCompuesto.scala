@@ -76,6 +76,7 @@ object ProcesadorCompuesto extends BaseProcesador {
                   }
         case 3 => operacion.tipoOperacion = POR
                   operacion.setOperandos(operandosUnitarios)
+        case _ =>
       }
       
     }

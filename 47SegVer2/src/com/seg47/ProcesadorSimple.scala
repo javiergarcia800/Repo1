@@ -30,7 +30,6 @@ object ProcesadorSimple extends BaseProcesador {
     var operacion = mejorOperacion(operaciones, cantidad)
 
     val cantidadFaltante = operacion.cantidadFaltante(cantidad)
-    //val numerosSinUsar = numeros -- operacion.getOperandos()
     val numerosSinUsar = numeros.diff(operacion.getOperandos())
 
     if ( cantidadFaltante == 0 )
@@ -62,7 +61,7 @@ object ProcesadorSimple extends BaseProcesador {
       if ( operacion.tipoOperacion == NOTHING ) {
           operacion.tipoOperacion = tipoOperacion
           operacion.setOperandos(numeros(i), numeros(j))
-      } else if ( operacionMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
+      } else if ( Util.cantidadMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
           operacion.setOperandos(numeros(i), numeros(j))
       }
     }
@@ -77,7 +76,7 @@ object ProcesadorSimple extends BaseProcesador {
       if ( operacion.tipoOperacion == NOTHING ) {
         operacion.tipoOperacion = tipoOperacion
         operacion.setOperandos(numeros(i), numeros(j), numeros(k))
-      } else if ( operacionMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
+      } else if ( Util.cantidadMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
             operacion.setOperandos(numeros(i), numeros(j), numeros(k))
       }
     }
@@ -93,7 +92,7 @@ object ProcesadorSimple extends BaseProcesador {
       if ( operacion.tipoOperacion == NOTHING ) {
           operacion.tipoOperacion = tipoOperacion
           operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l))
-      } else if ( operacionMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
+      } else if ( Util.cantidadMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
           operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l))
       }
     }
@@ -110,7 +109,7 @@ object ProcesadorSimple extends BaseProcesador {
       if ( operacion.tipoOperacion == NOTHING ) {
         operacion.tipoOperacion = tipoOperacion
         operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l), numeros(m))
-      } else if ( operacionMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l), numeros(m)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
+      } else if ( Util.cantidadMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l), numeros(m)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
         operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l), numeros(m))
       }
     }
@@ -128,7 +127,7 @@ object ProcesadorSimple extends BaseProcesador {
       if ( operacion.tipoOperacion == NOTHING ) {
         operacion.tipoOperacion = tipoOperacion
         operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l), numeros(m), numeros(n))
-      } else if ( operacionMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l), numeros(m), numeros(n)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
+      } else if ( Util.cantidadMasCercana( Operacion.calculaOperacion(tipoOperacion, numeros(i), numeros(j), numeros(k), numeros(l), numeros(m), numeros(n)), operacion.calculaOperacion(), cantidadAEncontrar ) ) {
         operacion.setOperandos(numeros(i), numeros(j), numeros(k), numeros(l), numeros(m), numeros(n))
       }
     }

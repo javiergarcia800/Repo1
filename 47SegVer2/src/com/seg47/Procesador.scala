@@ -15,9 +15,10 @@ object Procesador {
     if ( operacion == operacionCompuesta ) println("OPERACION COMPUESTA")
     println("Pasos: ")
     operacion.imprimePasos()
-    println("Operacion Final:    " + operacion.descripcion() )
+    println("")
+    println("Operacion Final:   " + operacion.descripcion() )
     println("Numeros utilizados: " +  operacion.getOperandos().length )
-    println("Diferencia: " + operacion.cantidadFaltante(cantidad) );
+    println("Diferencia        : " + operacion.cantidadFaltante(cantidad) );
     if ( operacion.cantidadFaltante(cantidad) == 0 ) println("EXACTO!!!")
     
   }
