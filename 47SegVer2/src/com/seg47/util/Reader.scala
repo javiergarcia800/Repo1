@@ -8,10 +8,10 @@ object Reader {
   def readData():Datos = {
     val nums = new Array[Int](CANTIDAD_NUMEROS)
     for (i <- 0 until nums.length) {
-      print("Numero : ")
+      Printer.imprimeTextoNumero
       nums(i) = readInt
     }
-    print("CIFRA  : ")
+    Printer.imprimeTextoCifra
     new Datos(nums, readInt)
   }
   

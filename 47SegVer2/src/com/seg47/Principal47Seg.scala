@@ -5,8 +5,14 @@ import com.seg47.util._
 object Principal47Seg {
 
     def main(args:Array[String]) {
-        var con:Int = 0
-        Printer.printStart()
+      Printer.printStart()
+      try     { ejecutaAplicacion }
+      catch   { case x => Printer.imprimeEntradaIncorrecta; println(x); x.printStackTrace() }
+      finally { Printer.imprimeSalida }
+    }
+
+    def ejecutaAplicacion {
+      var con:Int = 0
         while (true) {
           Printer.nuevoCalculo
           val data = Reader.readData

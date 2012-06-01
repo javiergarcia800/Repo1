@@ -3,6 +3,7 @@ package com.seg47
 import com.seg47.util._
 import com.seg47.vo._
 import com.seg47.vo.TipoOperacion._
+import java.io.PrintStream
 import scala.collection.mutable._
 
 object Test {
@@ -21,10 +22,26 @@ object Test {
         //list()
         //testDiff()
         //testTieneDecimales
-        testOperacion
+        //testOperacion
+        testUnicode
         //testRead
     }
 
+    def testUnicode {
+      
+      var z = Integer.parseInt("00F3", 16);
+      println(z)
+      var z1 : Char = z.toChar
+      println( z1 )
+      val caracteres = List("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F")
+      for ( x <- 10 until 16;
+            y <-  0 until 16 )  {
+        
+        print( "00" + caracteres(x) + caracteres(y) + "=" )
+        println( Integer.parseInt("00" + caracteres(x) + caracteres(y) , 16 ).toChar  )
+      }
+    }
+    
     def testRead {
       var a:Char = '\u00E0'
       println(a)

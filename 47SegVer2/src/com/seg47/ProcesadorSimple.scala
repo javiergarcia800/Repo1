@@ -44,6 +44,10 @@ object ProcesadorSimple extends BaseProcesador {
     } else if ( numerosSinUsar.length > 1 ) {
       val operacionDoble = operacion.operacionFaltante(cantidad)
       operacionDoble.operando2 = getOperacion(numerosSinUsar, cantidadFaltante)
+      
+      println("Operacion:" + operacion.descripcion() );
+      println("OperacionDoble:" + operacionDoble.descripcion() );
+      
       operacion =  super.mejorOperacion(List(operacion, operacionDoble), cantidad)
     }
     operacion
