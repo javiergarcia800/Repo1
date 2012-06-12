@@ -21,6 +21,7 @@ object Barbero extends Actor {
   }
 
   this.start
+  Barbero ! Duerme
   
   private def cortarCabello(cliente:Cliente) {
     println(ENTIDAD + "Cortando cabello a " + cliente.nombre + " ...")

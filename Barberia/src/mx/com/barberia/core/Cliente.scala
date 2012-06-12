@@ -9,6 +9,8 @@ case object VeASillaBarbero
 
 class Cliente(val nombre: String) extends Actor {
 
+  var silla = 0
+  
   private val ENTIDAD = nombre + " "
 
   def act = loop {
@@ -28,7 +30,7 @@ class Cliente(val nombre: String) extends Actor {
 
   private def marcharseBarberia = println(ENTIDAD + " Se marcha de barbería.") 
 
-  private def esperaEnSilla = println(ENTIDAD + " Espera su turno en silla de espera.") 
+  private def esperaEnSilla = println(ENTIDAD + " espera su turno en silla " + this.silla ) 
 
   private def irASillaBarbero = println(ENTIDAD + " Va a silla barbero.")
 

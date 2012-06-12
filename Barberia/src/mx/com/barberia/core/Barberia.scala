@@ -1,7 +1,9 @@
 package mx.com.barberia.core
 
 import scala.actors.Actor
+import scala.collection.mutable.Queue
 import Actor._
+
 
 case object BarberoDesocupado
 case class ClienteLlegaBarberia(val cliente:Cliente)
@@ -12,10 +14,11 @@ object Barberia extends Actor {
 
   private val MAX_SILLAS = 3
 
-  private var sillas:Array[Cliente] = new Array[Cliente](MAX_SILLAS);
+  private var sillas = new Queue[Cliente]()
+  //private var sillas:Array[Cliente] = new Array[Cliente](MAX_SILLAS);
 
   private var sillasDeEsperaOcupadas = 0
-  private var siguienteSillaDeEsperaDesocupada = 0;
+  private var siguienteSillaDeEsperaDesocupada = 1;
 
   private var sillaBarberoOcupada = false
   private def sillaBarberoDesocupada = !sillaBarberoOcupada
@@ -37,32 +40,37 @@ object Barberia extends Actor {
                                                   case _ => sillasDeEsperaOcupadas += 1
                                                             clienteEnEspera(cliente)
                                                             cliente ! VeASillaEspera
-                                                            println(ENTIDAD + sillasDeEsperaOcupadas + " sillas ocupadas.")
+                                                            muestraSillasOcupadas
                                                 }
     }
   }
 
   this.start
   
-  private def siguienteCliente:Cliente = {
-    var sillaSiguienteCliente = siguienteSillaDeEsperaDesocupada - 1
-    if ( sillaSiguienteCliente < 0 ) {
-      sillaSiguienteCliente = MAX_SILLAS - 1
+  private def muestraSillasOcupadas {
+    sillasDeEsperaOcupadas match {
+      case 0 => println(ENTIDAD + "Ninguna silla ocupada.")
+      case 1 => println(ENTIDAD + "1  silla ocupada.")
+      case _ => println(ENTIDAD + sillasDeEsperaOcupadas + " sillas ocupadas.")
     }
-    sillas(sillaSiguienteCliente)
+  }
+  
+  private def siguienteCliente:Cliente = {
+    sillas.dequeue()
   }
 
   private def clienteEnEspera(cliente:Cliente) {
-    println(cliente.nombre + " espera en silla " + siguienteSillaDeEsperaDesocupada )
-    sillas(siguienteSillaDeEsperaDesocupada) = cliente
+    cliente.silla = siguienteSillaDeEsperaDesocupada
+    sillas.enqueue(cliente)
     siguienteSillaDeEsperaDesocupada += 1
-    if ( siguienteSillaDeEsperaDesocupada == MAX_SILLAS ) {
+    if ( siguienteSillaDeEsperaDesocupada > MAX_SILLAS ) {
       if ( salaEsperaLlena ) {
-        siguienteSillaDeEsperaDesocupada = -1
+        siguienteSillaDeEsperaDesocupada = 0
       } else {
-        siguienteSillaDeEsperaDesocupada = 0;
+        siguienteSillaDeEsperaDesocupada = 1;
       }
     }
+    println(cliente.nombre + " espera su turno en silla " + cliente.silla )
   }
 
   private def salaEsperaLlena = MAX_SILLAS == sillasDeEsperaOcupadas

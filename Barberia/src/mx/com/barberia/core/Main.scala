@@ -4,8 +4,8 @@ object Main {
 
   def main(args:Array[String]) {
     println("Barberia...")
-    val clientes = new Array[Cliente](4)
-    for ( x <- 0 until 4 ) { clientes(x) = new Cliente("Cliente" + x ) }
+    val clientes = new Array[Cliente](5)
+    for ( x <- 0 until 5 ) { clientes(x) = new Cliente("Cliente" + x ) }
     clientes.foreach(_ ! VeABarberia)
     
   }
