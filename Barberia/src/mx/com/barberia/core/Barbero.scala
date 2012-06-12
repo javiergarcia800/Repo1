@@ -9,13 +9,7 @@ case object Despierta
 
 object Barbero extends Actor {
 
-  private val ENTIDAD = "Barbero :"
-
-  override def start:Actor = {
-    super.start();
-    this ! Duerme
-    this
-  }
+  private val ENTIDAD = "Barbero: "
 
   def act = loop {
     react {
@@ -26,8 +20,10 @@ object Barbero extends Actor {
     }
   }
 
+  this.start
+  
   private def cortarCabello(cliente:Cliente) {
-    println(ENTIDAD + "Cortando cabello a" + cliente.nombre + " ...")
+    println(ENTIDAD + "Cortando cabello a " + cliente.nombre + " ...")
     Thread.sleep(5000)
     println(ENTIDAD + "Corte terminado.")
   }

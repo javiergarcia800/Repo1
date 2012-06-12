@@ -9,11 +9,12 @@ case object VeASillaBarbero
 
 class Cliente(val nombre: String) extends Actor {
 
-  private val ENTIDAD = "Cliente " + nombre + ": "
+  private val ENTIDAD = nombre + " "
 
   def act = loop {
     react {
       case VeABarberia      => irABarberia
+                               Barberia ! ClienteLlegaBarberia(this)
       case MarchateBarberia => marcharseBarberia
       case VeASillaEspera   => esperaEnSilla
       case VeASillaBarbero  => irASillaBarbero
@@ -21,6 +22,8 @@ class Cliente(val nombre: String) extends Actor {
     }
   }
 
+  this.start
+  
   private def irABarberia = println(ENTIDAD + " Va a barbería.")
 
   private def marcharseBarberia = println(ENTIDAD + " Se marcha de barbería.") 

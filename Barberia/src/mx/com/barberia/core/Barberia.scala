@@ -8,7 +8,7 @@ case class ClienteLlegaBarberia(val cliente:Cliente)
 
 object Barberia extends Actor {
 
-  private val ENTIDAD = "Barberia :"
+  private val ENTIDAD = "Barberia: "
 
   private val MAX_SILLAS = 3
 
@@ -42,6 +42,8 @@ object Barberia extends Actor {
     }
   }
 
+  this.start
+  
   private def siguienteCliente:Cliente = {
     var sillaSiguienteCliente = siguienteSillaDeEsperaDesocupada - 1
     if ( sillaSiguienteCliente < 0 ) {
@@ -51,7 +53,7 @@ object Barberia extends Actor {
   }
 
   private def clienteEnEspera(cliente:Cliente) {
-    println("Cliente : " + cliente.nombre + " espera en silla " + siguienteSillaDeEsperaDesocupada )
+    println(cliente.nombre + " espera en silla " + siguienteSillaDeEsperaDesocupada )
     sillas(siguienteSillaDeEsperaDesocupada) = cliente
     siguienteSillaDeEsperaDesocupada += 1
     if ( siguienteSillaDeEsperaDesocupada == MAX_SILLAS ) {
