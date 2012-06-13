@@ -66,7 +66,6 @@ object Barberia extends Actor {
     if ( siguienteSillaDeEsperaDesocupada > MAX_SILLAS ) {
       siguienteSillaDeEsperaDesocupada = 1
     }
-    println(cliente.nombre + " espera su turno en silla " + cliente.silla )
   }
 
   private def salaEsperaLlena = MAX_SILLAS == sillasDeEsperaOcupadas

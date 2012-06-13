@@ -30,7 +30,7 @@ class Cliente(val nombre: String) extends Actor {
 
   private def marcharseBarberia = println(ENTIDAD + " Se marcha de barbería.") 
 
-  private def esperaEnSilla = println(ENTIDAD + " espera su turno en silla " + this.silla ) 
+  private def esperaEnSilla = println(ENTIDAD + " espera su turno en silla " + this.silla + ".") 
 
   private def irASillaBarbero = println(ENTIDAD + " Va a silla barbero.")
 
