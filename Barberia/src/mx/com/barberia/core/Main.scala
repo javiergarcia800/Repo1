@@ -11,6 +11,10 @@ object Main {
     Thread.sleep(5100);
     new Cliente("Cliente 5") ! VeABarberia
     
+    Thread.sleep(25000);
+    Barbero ! Exit
+    
+    println("Main fin...")
   }
 
 }

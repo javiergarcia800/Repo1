@@ -6,17 +6,21 @@ import Actor._
 case class CortaCabello(val cliente:Cliente)
 case object Duerme
 case object Despierta
+case object Exit
 
 object Barbero extends Actor {
 
   private val ENTIDAD = "Barbero: "
 
-  def act = loop {
-    react {
-      case CortaCabello(cliente) => cortarCabello(cliente)
+  def act = loop{
+    react{
+      case CortaCabello(cliente) =>  cortarCabello(cliente)
+                                     cliente ! MarchateBarberiaConCorte
                                      Barberia ! BarberoDesocupado
       case Duerme                 => dormir
       case Despierta              => despertar
+      case Exit                   => salir
+                                     exit
     }
   }
 
@@ -32,5 +36,10 @@ object Barbero extends Actor {
   private def dormir = println(ENTIDAD + "zzzzZZZZZ")
   
   private def despertar = println(ENTIDAD + "Despierta")
+  
+  private def salir  {
+    println(ENTIDAD + "sale de la barbería.")
+    Barberia ! Cerrar
+  }
   
 }

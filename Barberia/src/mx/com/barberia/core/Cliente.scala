@@ -4,6 +4,7 @@ import scala.actors.Actor
 
 case object VeABarberia
 case object MarchateBarberia
+case object MarchateBarberiaConCorte
 case object VeASillaEspera
 case object VeASillaBarbero
 
@@ -13,14 +14,17 @@ class Cliente(val nombre: String) extends Actor {
   
   private val ENTIDAD = nombre + " "
 
-  def act = loop {
-    react {
-      case VeABarberia      => irABarberia
-                               Barberia ! ClienteLlegaBarberia(this)
-      case MarchateBarberia => marcharseBarberia
-      case VeASillaEspera   => esperaEnSilla
-      case VeASillaBarbero  => irASillaBarbero
-                               Barbero ! CortaCabello(this)
+def act = loop{
+    react{
+      case VeABarberia              => irABarberia
+                                       Barberia ! ClienteLlegaBarberia(this)
+      case MarchateBarberia         => marcharseBarberia
+                                       exit
+      case MarchateBarberiaConCorte => marcharseBarberiaConCorte
+                                       exit
+      case VeASillaEspera           => esperaEnSilla
+      case VeASillaBarbero          => irASillaBarbero
+                                       Barbero ! CortaCabello(this)
     }
   }
 
@@ -28,10 +32,16 @@ class Cliente(val nombre: String) extends Actor {
   
   private def irABarberia = println(ENTIDAD + " Va a barbería.")
 
-  private def marcharseBarberia = println(ENTIDAD + " Se marcha de barbería.") 
+  private def marcharseBarberia = {
+    println(ENTIDAD + " Se marcha de barbería.")
+  }
 
-  private def esperaEnSilla = println(ENTIDAD + " espera su turno en silla " + this.silla + ".") 
+  private def marcharseBarberiaConCorte = {
+    println(ENTIDAD + " Se marcha de barbería con corte.")
+  }
+  
+  private def esperaEnSilla = println(ENTIDAD + " espera su turno en la silla " + this.silla + ".") 
 
-  private def irASillaBarbero = println(ENTIDAD + " Va a silla barbero.")
+  private def irASillaBarbero = println(ENTIDAD + " Va a la silla del barbero.")
 
 }

@@ -4,7 +4,7 @@ import scala.actors.Actor
 import scala.collection.mutable.Queue
 import Actor._
 
-
+case object Cerrar
 case object BarberoDesocupado
 case class ClienteLlegaBarberia(val cliente:Cliente)
 
@@ -23,8 +23,8 @@ object Barberia extends Actor {
   private var sillaBarberoOcupada = false
   private def sillaBarberoDesocupada = !sillaBarberoOcupada
 
-  def act = loop {
-    react {
+  def act = loop{
+    react{
       case BarberoDesocupado => if ( sillasDeEsperaOcupadas > 0 ) {
                                   sillasDeEsperaOcupadas -= 1
                                   siguienteCliente ! VeASillaBarbero
@@ -42,6 +42,8 @@ object Barberia extends Actor {
                                                             cliente ! VeASillaEspera
                                                             muestraSillasOcupadas
                                                 }
+      case Cerrar => cerrarBarberia
+                     exit
     }
   }
 
@@ -69,5 +71,9 @@ object Barberia extends Actor {
   }
 
   private def salaEsperaLlena = MAX_SILLAS == sillasDeEsperaOcupadas
+  
+  private def cerrarBarberia {
+    println(ENTIDAD + "cierra.")
+  }
   
 }
