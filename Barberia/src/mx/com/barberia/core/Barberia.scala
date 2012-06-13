@@ -64,11 +64,7 @@ object Barberia extends Actor {
     sillas.enqueue(cliente)
     siguienteSillaDeEsperaDesocupada += 1
     if ( siguienteSillaDeEsperaDesocupada > MAX_SILLAS ) {
-      if ( salaEsperaLlena ) {
-        siguienteSillaDeEsperaDesocupada = 0
-      } else {
-        siguienteSillaDeEsperaDesocupada = 1;
-      }
+      siguienteSillaDeEsperaDesocupada = 1
     }
     println(cliente.nombre + " espera su turno en silla " + cliente.silla )
   }
