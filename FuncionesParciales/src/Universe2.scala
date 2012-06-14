@@ -7,8 +7,6 @@ object Main {
 
   private def untilNumberOrPrint (x:Int)(y:Int) = if (x == y) exit else println(y)
 
-  private def foreverUntil(function: => Int, untilFunction:(Int) => Unit) = {
-    while(true) untilFunction(function)
-  }
+  private def foreverUntil(function: => Int, untilFunction:(Int) => Unit) = while(true) untilFunction(function)
 
 }
