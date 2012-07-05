@@ -1,5 +1,5 @@
 /*Funciones Parciales*/
-object Universe {
+object Universe2 {
 
   def main(args: Array[String]) = foreverUntil(readInt, untilNumberOrPrint(42))
 
